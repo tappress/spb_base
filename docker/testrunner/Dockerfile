@@ -6,7 +6,7 @@ RUN pip install poetry
 
 COPY pyproject.toml poetry.lock* /spb_base/
 
-COPY .env pytest.ini ./
+COPY test.env pytest.ini ./
 COPY src src
 COPY tests tests
 

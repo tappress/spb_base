@@ -21,8 +21,7 @@ async def fastapi_lifespan(app: FastAPI):
     yield
 
 
-def create_app() -> FastAPI:
-    settings = Settings()
+def create_app(settings: Settings) -> FastAPI:
     mongo_client = AsyncIOMotorClient(settings.mongo.url)
 
     app = FastAPI(lifespan=fastapi_lifespan)
@@ -40,5 +39,13 @@ def create_app() -> FastAPI:
 
     include_routers(app)
     add_exception_handlers(app)
+
+    return app
+
+
+def main() -> FastAPI:
+    settings = Settings()
+
+    app = create_app(settings)
 
     return app

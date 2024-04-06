@@ -16,7 +16,7 @@ async def fetch_all(service: ItemServiceIoC) -> list[ItemResponse]:
 @router.get("/{item_id}")
 async def fetch_by_id(
     item_id: PydanticObjectId, service: ItemServiceIoC
-) -> list[ItemResponse]:
+) -> ItemResponse:
     return await service.get_by_id(item_id)
 
 
