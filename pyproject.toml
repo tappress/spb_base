@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "spb-base"
+version = "0.1.0"
+description = ""
+authors = ["Andrii <tap.press.swap@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pydantic-settings = "^2.2.1"
+fastapi = {extras = ["all"], version = "^0.110.1"}
+beanie = "^1.25.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

@@ -1,0 +1,43 @@
+name: spb_base
+
+services:
+  web:
+    container_name: spb_base.web
+    build:
+      context: .
+      dockerfile: docker/web/Dockerfile
+    volumes:
+      - ./src:/spb_base/src
+    ports:
+      - "8081:8081"
+    env_file:
+      - .env
+    depends_on:
+      mongo:
+        condition: service_healthy
+
+  mongo:
+    container_name: spb_base.mongo
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - spb_base.mongodata:/data/db
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 3s
+      timeout: 2s
+      retries: 5
+      start_period: 4s
+
+#  mongo-express:
+#    container_name: spb_base.mongo-express
+#    image: mongo-express
+#    ports:
+#      - "8081:8081"
+#    depends_on:
+#      mongo:
+#        condition: service_healthy
+
+volumes:
+  spb_base.mongodata: { }
