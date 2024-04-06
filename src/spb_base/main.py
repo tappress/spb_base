@@ -21,7 +21,7 @@ async def fastapi_lifespan(app: FastAPI):
     yield
 
 
-def main() -> FastAPI:
+def create_app() -> FastAPI:
     settings = Settings()
     mongo_client = AsyncIOMotorClient(settings.mongo.url)
 
