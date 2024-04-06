@@ -11,24 +11,6 @@ from spb_base.main import create_app
 from spb_base.models import Item
 from spb_base.settings import Settings
 
-test_item_dicts = [
-    {
-        "name": "Laptop",
-        "code": "LT001",
-        "description": "A high-performance laptop suitable for gaming and professional work.",
-    },
-    {
-        "name": "Smartphone",
-        "code": "SP001",
-        "description": "A latest model smartphone with high-resolution camera.",
-    },
-    {
-        "name": "Headphones",
-        "code": "HP001",
-        "description": "Noise cancelling headphones with Bluetooth connectivity.",
-    },
-]
-
 
 @pytest_asyncio.fixture()
 async def app() -> FastAPI:
@@ -42,23 +24,6 @@ async def async_client(app: FastAPI) -> AsyncClient:
     async with LifespanManager(app):
         async with AsyncClient(app=app, base_url="http://test") as client:
             yield client
-
-
-@pytest_asyncio.fixture()
-async def test_items(app: FastAPI):
-    items = []
-
-    for item_data in test_item_dicts:
-        item = Item(**item_data)
-
-        await item.save()
-
-        items.append(item)
-
-    yield items
-
-    for item in items:
-        await item.delete()
 
 
 @pytest.mark.asyncio
@@ -102,4 +67,3 @@ async def test_delete_item(async_client: AsyncClient, test_items: list[Item]) ->
 
     response = await async_client.get(f"/api/v1/items/{target_item.id}")
     assert response.status_code == status.HTTP_404_NOT_FOUND
-
